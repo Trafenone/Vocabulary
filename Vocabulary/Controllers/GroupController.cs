@@ -12,12 +12,10 @@ namespace Vocabulary.Controllers
     public class GroupController : ControllerBase
     {
         private readonly IGroupRepository _groupRepository;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public GroupController(IGroupRepository groupRepository, IHttpContextAccessor httpContextAccessor)
+        public GroupController(IGroupRepository groupRepository)
         {
             _groupRepository = groupRepository;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet]
@@ -38,7 +36,6 @@ namespace Vocabulary.Controllers
         [Route("AddGroup")]
         public async Task<IActionResult> Add([FromBody] Group group)
         {
-            
             var result = await _groupRepository.Insert(group);
             if(result.Id == 0)
             {
