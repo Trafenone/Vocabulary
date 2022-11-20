@@ -12,16 +12,19 @@ namespace Vocabulary.Controllers
     public class GroupController : ControllerBase
     {
         private readonly IGroupRepository _groupRepository;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public GroupController(IGroupRepository groupRepository)
+        public GroupController(IGroupRepository groupRepository, IHttpContextAccessor httpContextAccessor)
         {
             _groupRepository = groupRepository;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet]
         [Route("GetGroup")]
         public async Task<IActionResult> GetAllGroup()
-        { 
+        {
+            var a = _httpContextAccessor.HttpContext.User.FindFirst(System.Security.Claims.ClaimTypes.Email);
             return Ok(await _groupRepository.GetAll());
         }
 
@@ -36,6 +39,7 @@ namespace Vocabulary.Controllers
         [Route("AddGroup")]
         public async Task<IActionResult> Add([FromBody] Group group)
         {
+            
             var result = await _groupRepository.Insert(group);
             if(result.Id == 0)
             {
