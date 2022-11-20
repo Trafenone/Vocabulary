@@ -23,8 +23,7 @@ namespace Vocabulary.Controllers
         [HttpGet]
         [Route("GetGroup")]
         public async Task<IActionResult> GetAllGroup()
-        {
-            var a = _httpContextAccessor.HttpContext.User.FindFirst(System.Security.Claims.ClaimTypes.Email);
+        { 
             return Ok(await _groupRepository.GetAll());
         }
 
